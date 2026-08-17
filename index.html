@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건대입구 게스트하우스</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 45 920;
+}
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
+
+:root{
+  --bg:#F7F5F1;
+  --card:#FFFFFF;
+  --card-hi:#F1EEE7;
+  --line:#E3DED2;
+  --text:#23201B;
+  --muted:#7C776C;
+  --gold:#9A6B00;
+  --warn:#C0392B;
+  --warn-bg:#FBEAE7;
+  --ok:#2C6B44;
+  --r401:#B8860B;
+  --r402:#1F8FBF;
+  --r501:#8A5A3B;
+  --r502:#6B7280;
+  --park-lot:#2C6B44;
+  --park-songjeong:#A6362A;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{ background:var(--bg); color:var(--text); font-family:'Pretendard', -apple-system, sans-serif; font-weight:450; line-height:1.5; padding:0 0 60px 0; }
+.wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+header{ padding:40px 20px 28px; border-bottom:1px solid var(--line); background: radial-gradient(circle at 15% 20%, rgba(184,134,11,0.08), transparent 40%), var(--bg); }
+header .eyebrow{ font-family:'Space Grotesk', sans-serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px;}
+header h1{ font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:700; letter-spacing:-0.01em; margin-bottom:8px; color:var(--text);}
+header p{color:var(--muted); font-size:13.5px; max-width:680px;}
+
+section{padding:28px 0;}
+section h2{ font-family:'Space Grotesk', sans-serif; font-size:11.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+section h2 .month{color:var(--gold); font-size:14px; letter-spacing:0; text-transform:none;}
+section h2 .hint{font-weight:400; text-transform:none; letter-spacing:0; font-size:11px;}
+section h2::after{content:''; flex:1; height:1px; background:var(--line); min-width:16px;}
+
+.legend-strip{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:16px;}
+.legend-strip .item{display:flex; align-items:center; gap:7px; font-size:14px; color:var(--text); font-family:'Space Grotesk',sans-serif; font-weight:700;}
+.legend-strip .chip{width:13px;height:13px;border-radius:3px;flex-shrink:0;}
+
+/* ===== CALENDAR — stays a 7-col grid at every width ===== */
+.cal{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; box-shadow:0 1px 2px rgba(35,32,27,0.04);}
+.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+.cal-wd{text-align:center; font-family:'Space Grotesk',sans-serif; font-size:10px; color:var(--muted); padding:4px 0 8px; font-weight:700; letter-spacing:0.02em;}
+.cal-wd.sat{color:#2E6B9C;} .cal-wd.sun{color:#A6362A;}
+.cal-day{min-height:64px; border-radius:6px; background:var(--card-hi); border:1px solid var(--line); padding:4px; display:flex; flex-direction:column; gap:2px; overflow:hidden;}
+.cal-day.empty{background:transparent; border:none;}
+.cal-day .num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:10.5px; color:var(--muted); margin-bottom:1px;}
+.cal-day .num .wd{display:none;}
+.evt{font-size:8.5px; border-radius:4px; padding:2px 4px; line-height:1.35; display:block; word-break:keep-all; overflow-wrap:break-word;}
+.evt .dot{display:inline-block; width:6px; height:6px; border-radius:1px; margin-right:3px; vertical-align:middle;}
+.evt.in{background:rgba(44,107,68,0.10); color:#2C6B44;}
+.evt.stay{background:rgba(124,119,108,0.10); color:#6B665D;}
+.evt.late{background:rgba(192,57,43,0.12); color:#A6362A; font-weight:700;}
+.tag-early{color:var(--gold); font-weight:700;}
+
+.cal-day .pk{font-size:8.5px; border-radius:4px; padding:2px 4px; line-height:1.35; display:block; word-break:keep-all; overflow-wrap:break-word;}
+.pk .rdot{display:inline-block; width:6px; height:6px; border-radius:1px; margin-right:3px; vertical-align:middle;}
+.pk .amt{font-family:'Space Grotesk',sans-serif; font-weight:700; opacity:0.85; margin-left:2px;}
+.pk.lot{background:rgba(44,107,68,0.10); color:#2C6B44;}
+.pk.songjeong{background:rgba(192,57,43,0.12); color:#A6362A;}
+.pk.unknown{background:rgba(124,119,108,0.10); color:#6B665D;}
+
+/* dot-only summary row, used inside <details> for crowded days */
+.dot-row{display:flex; gap:3px; flex-wrap:wrap;}
+.dot-row span{width:8px; height:8px; border-radius:2px; flex-shrink:0;}
+
+.cal-day details{width:100%;}
+.cal-day summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:4px; padding:2px 3px; border-radius:4px; background:rgba(184,134,11,0.10);}
+.cal-day summary::-webkit-details-marker{display:none;}
+.cal-day details[open] summary{margin-bottom:3px; background:transparent; padding:0;}
+.note-body{display:flex; flex-direction:column; gap:4px;}
+.note-line{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--muted); border-radius:6px; padding:7px 9px; font-size:11px;}
+.note-line .g{font-weight:700; color:var(--text); display:flex; align-items:center; gap:6px; margin-bottom:2px;}
+.note-line .g .dot{width:8px;height:8px;border-radius:2px;}
+.cal-day summary.kw{background:rgba(184,134,11,0.12); color:var(--gold); font-weight:700; font-size:8.5px; padding:3px 4px;}
+
+/* ===== From tablet width up, give cells room to breathe and show weekday ===== */
+@media (min-width:560px){
+  .cal{padding:16px;}
+  .cal-grid{gap:6px;}
+  .cal-wd{font-size:11px; padding:6px 0 10px;}
+  .cal-day{min-height:104px; padding:7px;}
+  .cal-day .num{font-size:12.5px;}
+  .cal-day .num .wd{display:inline; font-weight:500; color:var(--muted); opacity:0.7; font-size:10px; margin-left:3px;}
+  .evt, .pk{font-size:10px; padding:2px 5px;}
+  .cal-day summary.kw{font-size:10px; padding:5px 8px;}
+}
+
+.detail{opacity:0.98;}
+.clean-list{display:flex; flex-direction:column; gap:8px;}
+.clean-item{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 16px; display:grid; grid-template-columns:80px 1fr auto; gap:14px; align-items:center;}
+.clean-item.urgent{border-color:rgba(192,57,43,0.35); background:linear-gradient(90deg, var(--warn-bg), var(--card) 22%);}
+.clean-item .when{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px;}
+.clean-item .when .time{display:block; color:var(--muted); font-size:11px; font-weight:500; margin-top:2px;}
+.clean-item .body .unit{font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:7px;}
+.clean-item .body .flow{color:var(--muted); font-size:12.5px; margin-top:3px;}
+.badge{font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.04em; padding:4px 9px; border-radius:20px; text-transform:uppercase; white-space:nowrap;}
+.badge.urgent{background:var(--warn); color:#fff;}
+.badge.normal{background:var(--card-hi); color:var(--muted); border:1px solid var(--line);}
+
+@media (max-width:680px){
+  .wrap{padding:0 14px;}
+  header{padding:28px 14px 22px;}
+  header h1{font-size:21px;}
+  header p{font-size:13px;}
+  section{padding:22px 0;}
+  section h2{font-size:11px;}
+  .clean-item{grid-template-columns:1fr; gap:8px; padding:12px 14px;}
+  .clean-item .badge{justify-self:flex-start;}
+}
+
+table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+thead th{text-align:left; font-family:'Space Grotesk',sans-serif; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); background:var(--card-hi); padding:11px 13px; font-weight:700; border-bottom:1px solid var(--line);}
+tbody td{padding:12px 13px; font-size:13px; border-bottom:1px solid var(--line); vertical-align:top;}
+tbody tr:last-child td{border-bottom:none;}
+.pill{display:inline-block; padding:3px 9px; border-radius:20px; font-size:11px; font-weight:700;}
+.pill.sedan{background:rgba(44,107,68,0.12); color:var(--ok);}
+.pill.suv{background:rgba(192,57,43,0.12); color:var(--warn);}
+.pill.paid{background:rgba(184,134,11,0.14); color:var(--gold);}
+.pill.pending{background:var(--card-hi); color:var(--muted);}
+.room-tag{display:inline-flex; align-items:center; gap:6px; font-weight:700; font-family:'Space Grotesk',sans-serif;}
+.room-tag .chip{width:9px;height:9px;border-radius:3px;}
+.muted{color:var(--muted); font-size:12px;}
+
+.kakao-box{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px;}
+.kakao-box pre{white-space:pre-wrap; font-family:'Pretendard',sans-serif; font-size:13px; line-height:1.7; color:var(--text); background:var(--card-hi); border-radius:8px; padding:14px; margin-bottom:14px; border:1px solid var(--line);}
+.copy-btn{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; background:var(--gold); color:#fff; border:none; padding:12px 18px; border-radius:8px; cursor:pointer; width:100%;}
+.copy-btn:hover{filter:brightness(1.08);}
+
+footer{padding:30px 14px 0; color:var(--muted); font-size:11.5px; text-align:center;}
+
+@media (max-width:680px){
+  table, thead, tbody, th, td, tr{display:block;}
+  thead{display:none;}
+  tbody tr{border-bottom:1px solid var(--line); padding:11px 14px;}
+  tbody td{border:none; padding:4px 0; font-size:13px;}
+  tbody td::before{content:attr(data-label); display:block; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:2px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">최근 업데이트: 2026년 8월 16일 기준</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="legend-strip">
+      <div class="item"><span class="chip" style="background:var(--r401)"></span>401</div>
+      <div class="item"><span class="chip" style="background:var(--r402)"></span>402</div>
+      <div class="item"><span class="chip" style="background:var(--r501)"></span>501</div>
+      <div class="item"><span class="chip" style="background:var(--r502)"></span>502</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>예약 캘린더 <span class="month">2026년 8월</span> <span class="hint">— 점이 많은 날은 탭해서 펼쳐보세요</span></h2>
+    <div class="cal">
+      <div class="cal-grid">
+        <div class="cal-wd sun">일</div><div class="cal-wd">월</div><div class="cal-wd">화</div><div class="cal-wd">수</div><div class="cal-wd">목</div><div class="cal-wd">금</div><div class="cal-wd sat">토</div>
+
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+        <div class="cal-day">
+          <div class="num">1<span class="wd">토</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 강휘</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 민호</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 성현</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">2<span class="wd">일</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 승덕 16:30</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 건하 <span class="tag-early">얼리14시</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 경호</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">3<span class="wd">월</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 유은 <span class="tag-early">얼리16시</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 지우</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 수연</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 국만</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">4<span class="wd">화</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 지연</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 민서</div>
+          <div class="evt late"><span class="dot" style="background:var(--r501)"></span>501 OUT 13:00(레이트)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 재민</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 성현(정)</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">5<span class="wd">수</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 호현</div>
+          <div class="evt late"><span class="dot" style="background:var(--r402)"></span>402 OUT 13:00(레이트)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 민아(2박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 연희</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 은옥</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">6<span class="wd">목</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 경원</div>
+          <div class="evt stay"><span class="dot" style="background:var(--r402)"></span>402 민아(연박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 수민</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 미르</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">7<span class="wd">금</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 Samuel(4박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 민채</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 승찬</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 준서</div>
+        </div>
+
+        <div class="cal-day">
+          <div class="num">8<span class="wd">토</span></div>
+          <div class="evt stay"><span class="dot" style="background:var(--r401)"></span>401 Samuel(연박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 성현(전)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 정찬</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 준희</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">9<span class="wd">일</span></div>
+          <div class="evt stay"><span class="dot" style="background:var(--r401)"></span>401 Samuel(연박)</div>
+          <div class="evt late"><span class="dot" style="background:var(--r401)"></span>401 낮예약 12~17시</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 시현</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 덕봉</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">10<span class="wd">월</span></div>
+          <div class="evt stay"><span class="dot" style="background:var(--r401)"></span>401 Samuel(연박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 동준</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 한희</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 화영</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">11<span class="wd">화</span></div>
+          <div class="evt stay"><span class="dot" style="background:var(--r401)"></span>401 Samuel(연박)</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 창숙</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">12<span class="wd">수</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 정훈</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 창석</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 수아</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">13<span class="wd">목</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 형욱 <span class="tag-early">얼리14시</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 효정</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 은혜</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 지선</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">14<span class="wd">금</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 수빈</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 보경</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 SeoHyung</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 규찬</div>
+        </div>
+
+        <div class="cal-day">
+          <div class="num">15<span class="wd">토</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 룡</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 우근</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 동현</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 현빈</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">16<span class="wd">일</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 성찬</div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 하림</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 솔미</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 영환</div>
+        </div>
+        <div class="cal-day"><div class="num">17<span class="wd">월</span></div></div>
+        <div class="cal-day"><div class="num">18<span class="wd">화</span></div></div>
+        <div class="cal-day">
+          <div class="num">19<span class="wd">수</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 원재</div>
+        </div>
+        <div class="cal-day"><div class="num">20<span class="wd">목</span></div></div>
+        <div class="cal-day">
+          <div class="num">21<span class="wd">금</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 김진영</div>
+        </div>
+
+        <div class="cal-day">
+          <div class="num">22<span class="wd">토</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 혜란 <span class="tag-early">얼리16시</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r402)"></span>402 지웅</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 병준</div>
+          <div class="evt in"><span class="dot" style="background:var(--r502)"></span>502 승준(2박)</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">23<span class="wd">일</span></div>
+          <div class="evt stay"><span class="dot" style="background:var(--r502)"></span>502 승준(연박)</div>
+        </div>
+        <div class="cal-day"><div class="num">24<span class="wd">월</span></div></div>
+        <div class="cal-day">
+          <div class="num">25<span class="wd">화</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 서현</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">26<span class="wd">수</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 은미</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">27<span class="wd">목</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 Dukhwa</div>
+        </div>
+        <div class="cal-day"><div class="num">28<span class="wd">금</span></div></div>
+
+        <div class="cal-day">
+          <div class="num">29<span class="wd">토</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 지혜</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">30<span class="wd">일</span></div>
+          <div class="evt in"><span class="dot" style="background:var(--r401)"></span>401 병구</div>
+          <div class="evt in"><span class="dot" style="background:var(--r501)"></span>501 진우</div>
+        </div>
+        <div class="cal-day"><div class="num">31<span class="wd">월</span></div></div>
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:10px;">연박은 숙박하는 모든 날짜에 표시됩니다(체크아웃 당일 제외). 얼리체크인 표시가 없는 예약은 기본 체크인 오후 5시 기준입니다. 체크아웃은 <b style="color:var(--text)">레이트 체크아웃이 있을 때만</b> "OUT 시간" 형태로 별도 표시됩니다.</p>
+  </section>
+
+  <section>
+    <h2>주차 캘린더 <span class="month">2026년 8월</span> <span class="hint">— 확인된 27명 기준</span></h2>
+    <div class="cal">
+      <div class="cal-grid">
+        <div class="cal-wd sun">일</div><div class="cal-wd">월</div><div class="cal-wd">화</div><div class="cal-wd">수</div><div class="cal-wd">목</div><div class="cal-wd">금</div><div class="cal-wd sat">토</div>
+
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+        <div class="cal-day">
+          <div class="num">1<span class="wd">토</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r401)"></span>401 세단·건물</div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r401)"></span>401 티볼리·송정<span class="amt">1만</span></div>
+        </div>
+        <div class="cal-day">
+          <div class="num">2<span class="wd">일</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r401)"></span>401 아이오닉5·송정<span class="amt">5천</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r501)"></span>501 세단·건물</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">3<span class="wd">월</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r401)"></span>401 말리부·건물</div>
+          <div class="pk unknown"><span class="rdot" style="background:var(--r401)"></span>401 모하비·확인필요</div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r501)"></span>501 아반떼·건물</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">4<span class="wd">화</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r401)"></span>401 카니발·건물(예외)</div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r501)"></span>501 아반떼·케이타워<span class="amt">1만(전액지원)</span></div>
+        </div>
+        <div class="cal-day"><div class="num">5<span class="wd">수</span></div></div>
+        <div class="cal-day">
+          <div class="num">6<span class="wd">목</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r502)"></span>502 SUV·송정(추정)</div>
+        </div>
+        <div class="cal-day"><div class="num">7<span class="wd">금</span></div></div>
+        <div class="cal-day">
+          <div class="num">8<span class="wd">토</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r501)"></span>501 세단·케이타워<span class="amt">1만</span></div>
+        </div>
+
+        <div class="cal-day"><div class="num">9<span class="wd">일</span></div></div>
+        <div class="cal-day">
+          <div class="num">10<span class="wd">월</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r502)"></span>502 SM5·건물</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">11<span class="wd">화</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r402)"></span>402 싼타페·송정(추정)</div>
+        </div>
+        <div class="cal-day">
+          <div class="num">12<span class="wd">수</span></div>
+          <div class="pk unknown"><span class="rdot" style="background:var(--r401)"></span>401 BMW X6·확인필요</div>
+        </div>
+        <div class="cal-day"><div class="num">13<span class="wd">목</span></div></div>
+        <div class="cal-day">
+          <div class="num">14<span class="wd">금</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r502)"></span>502 벤츠GLS·송정<span class="amt">확인필요</span></div>
+        </div>
+        <div class="cal-day">
+          <div class="num">15<span class="wd">토</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r401)"></span>401 BMW X7·송정<span class="amt">확인필요</span></div>
+        </div>
+
+        <div class="cal-day">
+          <div class="num">16<span class="wd">일</span></div>
+          <div class="pk lot"><span class="rdot" style="background:var(--r401)"></span>401 K5·건물</div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r401)"></span>401 추가차량·송정</div>
+        </div>
+        <div class="cal-day"><div class="num">17<span class="wd">월</span></div></div>
+        <div class="cal-day"><div class="num">18<span class="wd">화</span></div></div>
+        <div class="cal-day"><div class="num">19<span class="wd">수</span></div></div>
+        <div class="cal-day"><div class="num">20<span class="wd">목</span></div></div>
+        <div class="cal-day"><div class="num">21<span class="wd">금</span></div></div>
+        <div class="cal-day">
+          <div class="num">22<span class="wd">토</span></div>
+          <div class="pk songjeong"><span class="rdot" style="background:var(--r401)"></span>401 카니발·송정(추정)</div>
+        </div>
+
+        <div class="cal-day"><div class="num">23<span class="wd">일</span></div></div>
+        <div class="cal-day"><div class="num">24<span class="wd">월</span></div></div>
+        <div class="cal-day"><div class="num">25<span class="wd">화</span></div></div>
+        <div class="cal-day"><div class="num">26<span class="wd">수</span></div></div>
+        <div class="cal-day"><div class="num">27<span class="wd">목</span></div></div>
+        <div class="cal-day"><div class="num">28<span class="wd">금</span></div></div>
+        <div class="cal-day"><div class="num">29<span class="wd">토</span></div></div>
+
+        <div class="cal-day"><div class="num">30<span class="wd">일</span></div></div>
+        <div class="cal-day"><div class="num">31<span class="wd">월</span></div></div>
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:10px;">
+      왼쪽 사각형은 호실 색상, 줄 배경은 배정 위치입니다 &nbsp;
+      <span style="color:var(--ok);">●</span> 건물주차장 &nbsp;
+      <span style="color:var(--warn);">●</span> 송정공영주차장(지원금 표시) &nbsp;
+      <span style="color:var(--muted);">●</span> 확인 필요 · 표시 없는 날은 주차 정보가 아직 없거나 해당 게스트가 무차량입니다
+    </p>
+  </section>
+
+  <section>
+    <h2>게스트 특이사항 캘린더 <span class="month">2026년 8월</span> <span class="hint">— 키워드를 눌러 상세 확인 · 호실 색상 표시</span></h2>
+    <div class="cal">
+      <div class="cal-grid">
+        <div class="cal-wd sun">일</div><div class="cal-wd">월</div><div class="cal-wd">화</div><div class="cal-wd">수</div><div class="cal-wd">목</div><div class="cal-wd">금</div><div class="cal-wd sat">토</div>
+
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+        <div class="cal-day">
+          <div class="num">1<span class="wd">토</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r401)"></span><span style="background:var(--r501)"></span></span> 바베큐·노래방</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r401)"><div class="g"><span class="dot" style="background:var(--r401)"></span>401</div>바베큐 세트 이용, 3만원 입금완료</div>
+              <div class="note-line" style="border-left-color:var(--r501)"><div class="g"><span class="dot" style="background:var(--r501)"></span>501</div>바베큐+노래방 기기 이용 문의 → 안내 완료</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day">
+          <div class="num">2<span class="wd">일</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r401)"></span><span style="background:var(--r501)"></span></span> 조기도착·얼리</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r401)"><div class="g"><span class="dot" style="background:var(--r401)"></span>401</div>16:30 조기 도착 조율, 주차지원 5천원으로 조정</div>
+              <div class="note-line" style="border-left-color:var(--r501)"><div class="g"><span class="dot" style="background:var(--r501)"></span>501</div>얼리체크인 14:00, 2만원 결제완료</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day">
+          <div class="num">3<span class="wd">월</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r401)"></span><span style="background:var(--r501)"></span><span style="background:var(--r502)"></span></span> 얼리·레이트·바베큐문의·도착시간</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r401)"><div class="g"><span class="dot" style="background:var(--r401)"></span>401</div>얼리체크인 16:00, 1만원 결제완료</div>
+              <div class="note-line" style="border-left-color:var(--r401)"><div class="g"><span class="dot" style="background:var(--r401)"></span>401</div>바베큐 당일예약 가능 여부 문의</div>
+              <div class="note-line" style="border-left-color:var(--r501)"><div class="g"><span class="dot" style="background:var(--r501)"></span>501</div>레이트체크아웃 13:00 신청 — 아반떼 세단을 케이타워B오피스텔로 이동, 주차비 1만원 전액 지원</div>
+              <div class="note-line" style="border-left-color:var(--r502)"><div class="g"><span class="dot" style="background:var(--r502)"></span>502</div>오후 3시 이후 도착 예정(정규 체크인, 추가요금 없음)</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day">
+          <div class="num">4<span class="wd">화</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r501)"></span></span> 바베큐문의</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r501)"><div class="g"><span class="dot" style="background:var(--r501)"></span>501</div>5시까지 도착 예정, 바베큐 이용 희망(입금 전)</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day"><div class="num">5<span class="wd">수</span></div></div>
+        <div class="cal-day"><div class="num">6<span class="wd">목</span></div></div>
+        <div class="cal-day"><div class="num">7<span class="wd">금</span></div></div>
+        <div class="cal-day">
+          <div class="num">8<span class="wd">토</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r501)"></span></span> 도착예정·바베큐</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r501)"><div class="g"><span class="dot" style="background:var(--r501)"></span>501</div>19~20시 도착 예정, 바베큐 이용 예정</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day"><div class="num">9<span class="wd">일</span></div></div>
+        <div class="cal-day"><div class="num">10<span class="wd">월</span></div></div>
+        <div class="cal-day"><div class="num">11<span class="wd">화</span></div></div>
+        <div class="cal-day"><div class="num">12<span class="wd">수</span></div></div>
+        <div class="cal-day"><div class="num">13<span class="wd">목</span></div></div>
+        <div class="cal-day"><div class="num">14<span class="wd">금</span></div></div>
+        <div class="cal-day">
+          <div class="num">15<span class="wd">토</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r502)"></span></span> 바베큐확정</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r502)"><div class="g"><span class="dot" style="background:var(--r502)"></span>502</div>바베큐 세트 이용 확정, 3만원(군인 손님, 야외 테라스 상태 문의함)</div>
+            </div>
+          </details>
+        </div>
+        <div class="cal-day">
+          <div class="num">16<span class="wd">일</span></div>
+          <details>
+            <summary class="kw"><span class="dot-row"><span style="background:var(--r401)"></span></span> 바베큐확정</summary>
+            <div class="note-body">
+              <div class="note-line" style="border-left-color:var(--r401)"><div class="g"><span class="dot" style="background:var(--r401)"></span>401</div>바베큐 세트 이용 확정, 입금완료(박성찬 명의)</div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:10px;">502(성현)은 얼리체크인을 문의했다가 정시 체크인으로 최종 진행해 표시는 생략했습니다. 17일 이후 예약은 아직 메시지 확인 전입니다.</p>
+  </section>
+
+  <section class="detail">
+    <h2>주차 배정 상세 · 1대 초과 안내 기준</h2>
+    <p class="muted" style="margin-bottom:14px;">건물 주차장은 <b style="color:var(--text);">세단 1대만</b> 가능합니다. 초과 차량은 세단이면 케이타워B오피스텔(기계식, 1만원/1일), SUV·승합차는 송정공영주차장(호스트 지원 최대 1만원, 나머지 자비)으로 안내합니다.</p>
+    <table>
+      <thead><tr><th>날짜</th><th>게스트</th><th>호실</th><th>차량</th><th>배정</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td data-label="날짜">8/1</td><td data-label="게스트">강휘</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">세단 SM3(20마9727) + 티볼리 <span class="pill suv">SUV</span></td><td data-label="배정">세단→건물주차장<br>티볼리→송정공영주차장</td><td data-label="비고"><span class="pill paid">1만원 지원 확정</span></td></tr>
+        <tr><td data-label="날짜">8/2</td><td data-label="게스트">건하</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r501)"></span>501</span></td><td data-label="차량">세단 SM3(02가2252) <span class="pill sedan">세단</span></td><td data-label="배정">건물주차장</td><td data-label="비고">1대만, 초과 없음</td></tr>
+        <tr><td data-label="날짜">8/3~8/4</td><td data-label="게스트">수연</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r501)"></span>501</span></td><td data-label="차량">아반떼AD(68구0222) <span class="pill sedan">세단</span></td><td data-label="배정">8/3 건물주차장 → 8/4 케이타워B오피스텔로 이동</td><td data-label="비고"><span class="pill paid">1만원 전액 지원</span> (레이트체크아웃 13:00에 맞춰 조정)</td></tr>
+        <tr><td data-label="날짜">8/4~8/5</td><td data-label="게스트">지연</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">카니발(116로9338) <span class="pill suv">대형밴</span></td><td data-label="배정">건물주차장(예외 허용)</td><td data-label="비고">밤 늦게 도착(9~10시)해 건물주차장에 여유 있어 예외로 허용</td></tr>
+        <tr><td data-label="날짜">8/6~8/7</td><td data-label="게스트">미르</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r502)"></span>502</span></td><td data-label="차량">SUV(차종/번호 미확인)</td><td data-label="배정">송정공영주차장 안내 예정</td><td data-label="비고"><span class="pill pending">세단 여부만 물어봄, 회신 대기 중</span></td></tr>
+        <tr><td data-label="날짜">8/8~8/9</td><td data-label="게스트">정찬</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r501)"></span>501</span></td><td data-label="차량">세단(차종/번호 미확인) <span class="pill sedan">세단</span></td><td data-label="배정">케이타워B오피스텔</td><td data-label="비고"><span class="pill paid">1만원 지원 확정</span></td></tr>
+        <tr><td data-label="날짜">8/10~8/11</td><td data-label="게스트">화영</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r502)"></span>502</span></td><td data-label="차량">SM5(02거4122) <span class="pill sedan">세단</span></td><td data-label="배정">건물주차장</td><td data-label="비고">1대만, 초과 없음</td></tr>
+        <tr><td data-label="날짜">8/11~8/12</td><td data-label="게스트">창숙</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r402)"></span>402</span></td><td data-label="차량">싼타페(30도3070) <span class="pill suv">SUV</span></td><td data-label="배정">송정공영주차장 안내 예정</td><td data-label="비고">10~11시 사이 조기 주차 예정(체크인은 5시)</td></tr>
+        <tr><td data-label="날짜">8/12~8/13</td><td data-label="게스트">창석</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r402)"></span>402</span></td><td data-label="차량">세단(차종/번호 미확인) <span class="pill sedan">세단</span></td><td data-label="배정">건물주차장</td><td data-label="비고">1대만, 초과 없음</td></tr>
+        <tr><td data-label="날짜">8/12~8/13</td><td data-label="게스트">Choi</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">BMW X6(169소9080) <span class="pill suv">SUV</span></td><td data-label="배정"><span class="pill pending">확인 필요</span></td><td data-label="비고">게스트는 세단으로 알고 있으나 X6는 SUV — 건물주차장(세단전용) 아닌 송정공영주차장 안내 필요</td></tr>
+        <tr><td data-label="날짜">8/14~8/15</td><td data-label="게스트">규찬</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r502)"></span>502</span></td><td data-label="차량">벤츠 GLS(1676) <span class="pill suv">대형SUV</span></td><td data-label="배정">송정공영주차장 안내 예정</td><td data-label="비고"><span class="pill pending">지원금액 안내 필요</span></td></tr>
+        <tr><td data-label="날짜">8/22~8/23</td><td data-label="게스트">혜란</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">카니발(200우9546) <span class="pill suv">대형밴</span></td><td data-label="배정">송정공영주차장 안내 예정</td><td data-label="비고">얼리체크인 16:00 결제완료</td></tr>
+        <tr><td data-label="날짜">8/15~8/16</td><td data-label="게스트">룡</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">BMW X7(168라7650) <span class="pill suv">SUV</span></td><td data-label="배정">송정공영주차장 안내 예정</td><td data-label="비고"><span class="pill pending">지원금액 안내 필요</span></td></tr>
+        <tr><td data-label="날짜">8/16~8/17</td><td data-label="게스트">성찬</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">K5(40오1650) <span class="pill sedan">세단</span> + 1대 추가</td><td data-label="배정">K5→건물주차장<br>추가차량→송정공영주차장</td><td data-label="비고">일요일이라 빈 자리 여유 있음, 바베큐 3만원 입금완료(9명)</td></tr>
+        <tr><td data-label="날짜">8/2</td><td data-label="게스트">승덕</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">아이오닉5 <span class="pill suv">SUV급</span></td><td data-label="배정">송정공영주차장</td><td data-label="비고"><span class="pill paid">5천원 지원</span>(16:30 도착 조율 차감)</td></tr>
+        <tr><td data-label="날짜">8/3</td><td data-label="게스트">유은</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r401)"></span>401</span></td><td data-label="차량">말리부<span class="pill sedan">세단</span> + 더뉴모하비<span class="pill suv">대형SUV</span></td><td data-label="배정">말리부→건물주차장<br>모하비→안내 필요</td><td data-label="비고"><span class="pill pending">확인 필요</span></td></tr>
+        <tr><td data-label="날짜">8/8</td><td data-label="게스트">정찬</td><td data-label="호실"><span class="room-tag"><span class="chip" style="background:var(--r501)"></span>501</span></td><td data-label="차량">미확인</td><td data-label="배정">-</td><td data-label="비고"><span class="pill pending">체크인 전일 안내 예정</span></td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:12px;">그 외 8월 예약 42건(수민·경원·Samuel·덕봉·수아·원재·지웅·서현·Dukhwa·지혜·경호·우근·진우·지우·성현(정)·민아·성현(전)·준희·은옥·호현·시현·민채·승찬·효정·김진영·병준·준서·한희·동준·동현·현빈·승준·정훈·영환·은미·지선·SeoHyung·수빈·은혜·보경·병구)은 아직 메시지를 확인하지 못해 주차 정보가 없습니다. 재민·국만은 도착시간/바베큐 문의만 확인했고 차량 정보는 아직 없습니다. 현빈(502)은 바베큐만 확정, 차량 정보는 아직 없습니다. 연희(501)·민서(402)는 차량 없음, 미르(502)는 SUV, 정찬(501)은 세단(케이타워B), 화영(502)은 세단(SM5), 창숙(402)은 SUV(싼타페), 창석(402)은 세단, 규찬(502)은 벤츠 GLS(대형SUV), Choi(401)는 BMW X6, 혜란(401)은 카니발(대형밴), 룡(401)은 BMW X7(SUV), 성찬(401)은 K5+추가1대로 확인됐습니다(BMW X6는 SUV라 세단전용 건물주차장 배정 오류 가능성 있어 확인 필요). (영미·리나·문석·하림(501)·미경·SoHee·정민 예약은 게스트가 취소해 목록에서 제외했습니다. 영환은 한 번 취소 후 같은 방을 다시 예약했습니다. 은혜는 취소된 걸로 잘못 반영됐다가 정정 — 실제로는 확정 상태입니다. iCal 4개 링크와 대조 완료 — 401/501/502호는 정확히 일치, 402호는 iCal 확인 불가로 크롬 예약목록만 사용.)</p>
+  </section>
+
+  <footer>
+    에어비앤비 예약 목록·호스트 메시지함 기준 스냅샷 · 2026년 8월 16일 갱신 (iCal 401/501/502 교차검증 완료)
+  </footer>
+
+</div>
+</body>
+</html>
