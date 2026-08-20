@@ -85,14 +85,19 @@ def guests_label(r):
 def fmt_range(a, b):
     return f"{a.month}/{a.day} - {b.month}/{b.day}"
 
-checkins_by_day = {dt: [] for dt in ALL_DAYS}
+# 연박인 경우 체크인일부터 체크아웃 전날까지 매일 표시한다 (숙박 중인 모든 날짜에 나타남).
+stay_by_day = {dt: [] for dt in ALL_DAYS}
 for r in RESERVATIONS:
-    if r["ci"] in checkins_by_day:
-        checkins_by_day[r["ci"]].append(r)
+    if r["status"] == "checkout_done":
+        continue  # 이미 퇴실한 예약은 캘린더에 표시하지 않음
+    night = r["ci"]
+    while night < r["co"]:
+        if night in stay_by_day:
+            stay_by_day[night].append(r)
+        night += datetime.timedelta(days=1)
 
 def day_active_checkins(dt):
-    # 체크아웃 완료 건은 캘린더에 표시하지 않음 (이미 퇴실)
-    return [r for r in checkins_by_day[dt] if r["status"] != "checkout_done"]
+    return stay_by_day[dt]
 
 def day_cell(dt, body_html):
     today_cls = " today" if dt == TODAY else ""
@@ -117,18 +122,22 @@ def build_calendar_grid(day_body_fn):
         out.append('</div>')
     return "\n".join(out)
 
-# ----- Calendar 1: 예약 캘린더 (체크인 인원만, 확인된 얼리/레이트 표시) -----
+# ----- Calendar 1: 예약 캘린더 (체크인~체크아웃 전날까지 연속 표시, 확인된 얼리/레이트 표시) -----
 def reservation_day_body(dt):
     lines = []
     for r in sorted(day_active_checkins(dt), key=lambda r: UNIT_ORDER.index(r["unit"])):
         c = UNITS[r["unit"]]["color"]
+        is_checkin_day = (dt == r["ci"])
         tags = []
-        if r.get("early"):
-            tags.append(f"얼리체크인 {r['early']}")
-        if r.get("late"):
+        if is_checkin_day:
+            if r.get("early"):
+                tags.append(f"얼리체크인 {r['early']}")
+            if r.get("note"):
+                tags.append(r["note"])
+        else:
+            tags.append("숙박 중")
+        if r.get("late") and dt == r["co"] - datetime.timedelta(days=1):
             tags.append(f"레이트체크아웃 {r['late']}")
-        if r.get("note"):
-            tags.append(r["note"])
         tag_html = f' <span class="tag">· {esc(", ".join(tags))}</span>' if tags else ""
         lines.append(f'<div class="evt" style="background:{c}1a;color:{c};border-left:3px solid {c};">'
                       f'{esc(r["unit"])} {esc(r["guest"])} ({esc(guests_label(r))}){tag_html}</div>')
