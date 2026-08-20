@@ -14,8 +14,11 @@ TODAY = datetime.date(2026, 8, 20)
 WEEKDAY_KR = ['일', '월', '화', '수', '목', '금', '토']
 
 def week_sunday(dt):
-    offset = (dt.weekday() + 1) % 7  # days since Sunday
-    return dt - datetime.timedelta(days=offset)
+    # 주 경계는 "월요일에 넘어갈 때" 바뀐다: 이번 주가 월~일이라고 볼 때
+    # 창의 시작일은 그 주의 월요일 하루 전(=직전 일요일)이다. 즉 일요일 당일에는
+    # 아직 창이 넘어가지 않고, 그 다음날 월요일이 되어야 다음 4주 창으로 넘어간다.
+    monday_of_week = dt - datetime.timedelta(days=dt.weekday())  # Monday=0 ... Sunday=6
+    return monday_of_week - datetime.timedelta(days=1)
 
 WIN_START = week_sunday(TODAY)
 WIN_END = WIN_START + datetime.timedelta(days=27)  # 28 days inclusive
@@ -134,14 +137,23 @@ def reservation_day_body(dt):
     return '<div class="evt-list">' + "".join(lines) + '</div>'
 
 # ----- Calendar 2: 주차여부 / 바베큐여부 캘린더 -----
+# 확인된 내용이 있을 때만 표시한다. parking/bbq 필드가 없으면(=파악된 내용 없음)
+# 그 게스트 자체를 이 캘린더에 표시하지 않는다 ("확인 필요" 같은 플레이스홀더를 굳이 채우지 않음).
 def parking_bbq_day_body(dt):
     lines = []
     for r in sorted(day_active_checkins(dt), key=lambda r: UNIT_ORDER.index(r["unit"])):
+        park = r.get("parking")
+        bbq = r.get("bbq")
+        if not park and not bbq:
+            continue
         c = UNITS[r["unit"]]["color"]
-        park = r.get("parking", "확인 필요")
-        bbq = r.get("bbq", "확인 필요")
+        parts = []
+        if park:
+            parts.append(f"주차: {esc(park)}")
+        if bbq:
+            parts.append(f"바베큐: {esc(bbq)}")
         lines.append(f'<div class="evt" style="background:{c}1a;color:{c};border-left:3px solid {c};">'
-                      f'{esc(r["unit"])} {esc(r["guest"])}<br>주차: {esc(park)} · 바베큐: {esc(bbq)}</div>')
+                      f'{esc(r["unit"])} {esc(r["guest"])}<br>{" · ".join(parts)}</div>')
     if not lines:
         return '<div class="empty-hint">-</div>'
     return '<div class="evt-list">' + "".join(lines) + '</div>'
