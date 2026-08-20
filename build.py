@@ -135,7 +135,7 @@ def reservation_day_body(dt):
             if r.get("note"):
                 tags.append(r["note"])
         else:
-            tags.append("숙박 중")
+            tags.append("연박")
         if r.get("late") and dt == r["co"] - datetime.timedelta(days=1):
             tags.append(f"레이트체크아웃 {r['late']}")
         tag_html = f' <span class="tag">· {esc(", ".join(tags))}</span>' if tags else ""
