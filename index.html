@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>건대입구 게스트하우스 · 취향집 운영 대시보드</title>
+<title>건대입구 게스트하우스 운영 대시보드</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <style>
 @font-face {
@@ -19,10 +19,7 @@
   --text: #0b0b0b;
   --muted: #52514e;
   --muted-2: #8a887f;
-  --accent: #eda100;
-  --warn: #d03b3b;
-  --warn-bg: #fbe9e7;
-  --ok: #0ca30c;
+  --accent: #C98500;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -49,43 +46,23 @@ section h2::after{content:''; flex:1; height:1px; background:var(--line); min-wi
 .cal{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px;}
 .cal-wd-row{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
 .cal-wd{text-align:center; font-size:11px; color:var(--muted-2); padding:4px 0; font-weight:700; letter-spacing:0.02em;}
-.cal-wd.sat{color:#2a78d6;} .cal-wd.sun{color:#d03b3b;}
+.cal-wd.sat{color:#1E88B8;} .cal-wd.sun{color:#d03b3b;}
 .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
-.cal-day{min-height:78px; border-radius:8px; background:var(--card-hi); border:1px solid var(--line); padding:6px; display:flex; flex-direction:column; gap:3px; overflow:hidden;}
+.cal-day{min-height:82px; border-radius:8px; background:var(--card-hi); border:1px solid var(--line); padding:6px; display:flex; flex-direction:column; gap:3px; overflow:hidden;}
 .cal-day.today{border-color:var(--accent); border-width:2px; background:#fff8ec;}
 .cal-day .num{font-weight:700; font-size:11px; color:var(--muted); margin-bottom:1px;}
 .cal-day .num .wd{font-weight:500; color:var(--muted-2); font-size:10px; margin-left:4px;}
-.cal-day .num .wd.sat{color:#2a78d6;} .cal-day .num .wd.sun{color:#d03b3b;}
-.evt-list{display:flex; flex-direction:column; gap:2px;}
-.evt{font-size:9.5px; border-radius:4px; padding:2px 5px; line-height:1.4; display:block; word-break:keep-all; overflow-wrap:break-word;}
-.pk{font-size:9.5px; border-radius:4px; padding:2px 5px; line-height:1.4; display:block; word-break:keep-all;}
-.pk.unknown{background:var(--card); color:var(--muted); border:1px dashed var(--muted-2);}
+.cal-day .num .wd.sat{color:#1E88B8;} .cal-day .num .wd.sun{color:#d03b3b;}
+.evt-list{display:flex; flex-direction:column; gap:3px;}
+.evt{font-size:9.5px; border-radius:4px; padding:3px 5px; line-height:1.45; display:block; word-break:keep-all; overflow-wrap:break-word;}
+.evt .tag{font-weight:700; opacity:0.9;}
 .empty-hint{color:var(--muted-2); font-size:10px; padding-top:2px;}
 
 @media (min-width:640px){
-  .cal-day{min-height:110px; padding:8px;}
+  .cal-day{min-height:118px; padding:8px;}
   .cal-day .num{font-size:12.5px;}
-  .evt, .pk{font-size:11px; padding:3px 6px;}
+  .evt{font-size:11px; padding:4px 6px;}
 }
-
-.clean-list{display:flex; flex-direction:column; gap:8px;}
-.clean-item{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 16px; display:grid; grid-template-columns:88px 1fr auto; gap:14px; align-items:center;}
-.clean-item.urgent{border-color:rgba(208,59,59,0.4); background:linear-gradient(90deg, var(--warn-bg), var(--card) 24%);}
-.clean-item .when{font-weight:700; font-size:13.5px;}
-.clean-item .when .time{display:block; color:var(--muted-2); font-size:11px; font-weight:500; margin-top:2px;}
-.clean-item .body .unit{font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:7px;}
-.clean-item .body .unit .dot{width:9px;height:9px;border-radius:2px; display:inline-block;}
-.clean-item .body .flow{color:var(--muted); font-size:12.5px; margin-top:3px;}
-.badge{font-size:10px; font-weight:700; letter-spacing:0.03em; padding:4px 10px; border-radius:20px; text-transform:uppercase; white-space:nowrap;}
-.badge.urgent{background:var(--warn); color:#fff;}
-.badge.normal{background:var(--card-hi); color:var(--muted); border:1px solid var(--line);}
-
-table.park-table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13px;}
-table.park-table th, table.park-table td{padding:11px 12px; text-align:left; border-bottom:1px solid var(--line);}
-table.park-table th{background:var(--card-hi); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); font-weight:700;}
-table.park-table td.muted{color:var(--muted-2); font-size:12px;}
-table.park-table .dot{width:9px;height:9px;border-radius:2px; display:inline-block; margin-right:6px; vertical-align:middle;}
-table.park-table tr:last-child td{border-bottom:none;}
 
 .policy-box{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; font-size:13px; color:var(--muted); margin-bottom:18px;}
 .policy-box b{color:var(--text);}
@@ -97,8 +74,6 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
   header{padding:26px 14px 20px;}
   header h1{font-size:20px;}
   section{padding:20px 0;}
-  .clean-item{grid-template-columns:1fr; gap:8px;}
-  table.park-table{font-size:12px;}
 }
 </style>
 </head>
@@ -106,25 +81,24 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
 <div class="wrap">
 <header>
   <div class="eyebrow">Guesthouse Ops Dashboard</div>
-  <h1>건대입구 게스트하우스 4개 유닛 · 마포 취향집 운영 대시보드</h1>
-  <p>예약 현황, 주차 배정, 청소 일정, 게스트 특이사항을 한눈에 확인하세요. 확인되지 않은 정보는 추측하지 않고 "확인 필요"로 표시합니다.</p>
-  <div class="updated">최근 업데이트: 2026. 8. 20. · 표시 기간: 8/16 - 9/12 (4주 로테이션)</div>
+  <h1>건대입구 게스트하우스 4개 유닛 운영 대시보드</h1>
+  <p>예약 현황과 주차/바베큐 여부를 한눈에 확인하세요. 확인되지 않은 정보는 추측하지 않고 "확인 필요"로 표시합니다.</p>
+  <div class="updated">최근 업데이트: 2026. 8. 20. · 표시 기간: 8/16 - 9/12 (4주 로테이션, 매주 일요일 갱신)</div>
 </header>
 
 <section>
   <h2>유닛<span class="range"></span></h2>
   <div class="legend-strip">
-    <div class="item"><span class="chip" style="background:#2a78d6"></span>더테라스 하우스 501호<span class="legend-sub">브라운문</span></div>
-<div class="item"><span class="chip" style="background:#eb6834"></span>더블랑 하우스 502호<span class="legend-sub">검정문</span></div>
-<div class="item"><span class="chip" style="background:#1baf7a"></span>우드블랑 하우스 401호<span class="legend-sub">골드문</span></div>
-<div class="item"><span class="chip" style="background:#eda100"></span>우드블랑 하우스 402호<span class="legend-sub">그레이문</span></div>
-<div class="item"><span class="chip" style="background:#e87ba4"></span>취향집<span class="legend-sub">마포구 아현동</span></div>
+    <div class="item"><span class="chip" style="background:#8A5A3B"></span>더테라스 하우스 501호<span class="legend-sub">브라운문</span></div>
+<div class="item"><span class="chip" style="background:#262626"></span>더블랑 하우스 502호<span class="legend-sub">검정문</span></div>
+<div class="item"><span class="chip" style="background:#C98500"></span>우드블랑 하우스 401호<span class="legend-sub">골드문</span></div>
+<div class="item"><span class="chip" style="background:#1E88B8"></span>우드블랑 하우스 402호<span class="legend-sub">그레이문</span></div>
   </div>
 </section>
 
 <section>
   <h2>예약 캘린더 <span class="range">8/16 - 9/12</span></h2>
-  <div class="hint">IN = 체크인, OUT = 체크아웃. 색상은 유닛을 나타냅니다.</div>
+  <div class="hint">체크인 게스트와 인원. 얼리체크인/레이트체크아웃이 메시지로 확인된 경우에만 함께 표시됩니다.</div>
   <div class="cal">
     <div class="cal-wd-row">
 <div class="cal-wd sun">일</div>
@@ -136,387 +110,132 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
 <div class="cal-wd sat">토</div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/16<span class="wd sun">일</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/17<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/18<span class="wd">화</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/19<span class="wd">수</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 세아 마 (성인 4명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 원재 장 (성인 5명)</div><div class="evt in" style="background:#1baf7a1a;color:#1baf7a;border-left:3px solid #1baf7a;">IN 401 · 현수 김 (성인 3명)</div><div class="evt in" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">IN 402 · 지원 이 (성인 3명, 어린이 1명)</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day today ">
+<div class="cal-day today">
   <div class="num">8/20<span class="wd">목</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 병준 전 (성인 4명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · Kevin 이 (성인 4명)</div><div class="evt in" style="background:#1baf7a1a;color:#1baf7a;border-left:3px solid #1baf7a;">IN 401 · Glenda Galvez (성인 5명)</div><div class="evt in" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">IN 402 · 유나 이 (성인 4명)</div><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · 기강 윤 (성인 6명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 세아 마</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 원재 장</div><div class="evt out" style="background:#1baf7a0d;color:#1baf7a;border-left:3px solid #1baf7a66;">OUT 401 · 현수 김</div><div class="evt out" style="background:#eda1000d;color:#eda100;border-left:3px solid #eda10066;">OUT 402 · 지원 이</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 병준 전 (성인 4명)</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Kevin 이 (성인 4명)</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 Glenda Galvez (성인 5명) <span class="tag">· 예약 변경요청 처리중 - 확인 필요</span></div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 유나 이 (성인 4명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/21<span class="wd">금</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 현수 양 (성인 4명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 김 진영 (성인 9명)</div><div class="evt in" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">IN 402 · 경미 이 (성인 4명)</div><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · 晓诗 陈 외 (성인 6명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 병준 전</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · Kevin 이</div><div class="evt out" style="background:#eda1000d;color:#eda100;border-left:3px solid #eda10066;">OUT 402 · 유나 이</div><div class="evt out" style="background:#e87ba40d;color:#e87ba4;border-left:3px solid #e87ba466;">OUT 마포 · 기강 윤</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 현수 양 (성인 4명)</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 김 진영 (성인 9명)</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 경미 이 (성인 4명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/22<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 병준 이 (성인 4명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 혜란 강 (성인 4명, 어린이 2명)</div><div class="evt in" style="background:#1baf7a1a;color:#1baf7a;border-left:3px solid #1baf7a;">IN 401 · 승준 이 (성인 1명)</div><div class="evt in" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">IN 402 · 지웅 이 (성인 8명)</div><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · Yan Ren (성인 4명, 어린이 2명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 현수 양</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 김 진영</div><div class="evt out" style="background:#1baf7a0d;color:#1baf7a;border-left:3px solid #1baf7a66;">OUT 401 · Glenda Galvez</div><div class="evt out" style="background:#eda1000d;color:#eda100;border-left:3px solid #eda10066;">OUT 402 · 경미 이</div><div class="evt out" style="background:#e87ba40d;color:#e87ba4;border-left:3px solid #e87ba466;">OUT 마포 · 晓诗 陈 외</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 병준 이 (성인 4명)</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 혜란 강 (성인 4명, 어린이 2명)</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 승준 이 (성인 1명)</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 지웅 이 (성인 8명)</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/23<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 승주 임 (성인 5명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 민정 조 (성인 7명)</div><div class="evt in" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">IN 402 · 李致姗 李 (성인 4명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 병준 이</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 혜란 강</div><div class="evt out" style="background:#eda1000d;color:#eda100;border-left:3px solid #eda10066;">OUT 402 · 지웅 이</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 승주 임 (성인 5명)</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 민정 조 (성인 7명)</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 李致姗 李 (성인 4명) <span class="tag">· 얼리체크인 문의 있었음 - 확인 필요</span></div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/24<span class="wd">월</span></div>
-  <div class="evt-list"><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 승주 임</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 민정 조</div><div class="evt out" style="background:#1baf7a0d;color:#1baf7a;border-left:3px solid #1baf7a66;">OUT 401 · 승준 이</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/25<span class="wd">화</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 서현 김 (성인 6명)</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 서현 김 (성인 6명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/26<span class="wd">수</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 은미 이 (성인 4명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 서현 김</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 은미 이 (성인 4명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/27<span class="wd">목</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · Dukhwa Kang (성인 7명)</div><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 은미 이</div><div class="evt out" style="background:#eda1000d;color:#eda100;border-left:3px solid #eda10066;">OUT 402 · 李致姗 李</div><div class="evt out" style="background:#e87ba40d;color:#e87ba4;border-left:3px solid #e87ba466;">OUT 마포 · Yan Ren</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Dukhwa Kang (성인 7명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/28<span class="wd">금</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · 馨 夏 (성인 4명)</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · Dukhwa Kang</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/29<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 지혜 강 (성인 8명)</div><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · 유나 조 (성인 3명)</div><div class="evt out" style="background:#e87ba40d;color:#e87ba4;border-left:3px solid #e87ba466;">OUT 마포 · 馨 夏</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 지혜 강 (성인 8명)</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/30<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">IN 501 · 진우 이 (성인 4명, 어린이 2명)</div><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 병구 김 (성인 6명, 어린이 4명)</div><div class="evt in" style="background:#1baf7a1a;color:#1baf7a;border-left:3px solid #1baf7a;">IN 401 · 신욱 곽 (성인 4명)</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 지혜 강</div><div class="evt out" style="background:#e87ba40d;color:#e87ba4;border-left:3px solid #e87ba466;">OUT 마포 · 유나 조</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 진우 이 (성인 4명, 어린이 2명)</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 병구 김 (성인 6명, 어린이 4명)</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 신욱 곽 (성인 4명)</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/31<span class="wd">월</span></div>
-  <div class="evt-list"><div class="evt out" style="background:#2a78d60d;color:#2a78d6;border-left:3px solid #2a78d666;">OUT 501 · 진우 이</div><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · 병구 김</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/1<span class="wd">화</span></div>
-  <div class="evt-list"><div class="evt out" style="background:#1baf7a0d;color:#1baf7a;border-left:3px solid #1baf7a66;">OUT 401 · 신욱 곽</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/2<span class="wd">수</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/3<span class="wd">목</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/4<span class="wd">금</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/5<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · Jiny Choi (성인 8명)</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Jiny Choi (성인 8명)</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/6<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="evt out" style="background:#eb68340d;color:#eb6834;border-left:3px solid #eb683466;">OUT 502 · Jiny Choi</div></div>
+  <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/7<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/8<span class="wd">화</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/9<span class="wd">수</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/10<span class="wd">목</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/11<span class="wd">금</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/12<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt in" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">IN 502 · 인애 나 (성인 10명)</div><div class="evt in" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">IN 마포 · Yuci Wu (성인 6명)</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 인애 나 (성인 10명)</div></div>
 </div>
 </div>
   </div>
 </section>
 
 <section>
-  <h2>청소 일정</h2>
-  <div class="hint">체크아웃일 기준, 같은 유닛에 당일 재입실이 있으면 "당일 재입실"로 강조 표시됩니다.</div>
-  <div class="clean-list">
-    <div class="clean-item urgent">
-  <div class="when">8/20<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">세아 마 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/20<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">원재 장 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/20<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</div>
-    <div class="flow">현수 김 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/20<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</div>
-    <div class="flow">지원 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/21<span class="time">(금) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">병준 전 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/21<span class="time">(금) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">Kevin 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/21<span class="time">(금) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</div>
-    <div class="flow">유나 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/21<span class="time">(금) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#e87ba4"></span>취향집</div>
-    <div class="flow">기강 윤 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/22<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">현수 양 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/22<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">김 진영 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/22<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</div>
-    <div class="flow">Glenda Galvez 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/22<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</div>
-    <div class="flow">경미 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/22<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#e87ba4"></span>취향집</div>
-    <div class="flow">晓诗 陈 외 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/23<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">병준 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/23<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">혜란 강 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/23<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</div>
-    <div class="flow">지웅 이 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/24<span class="time">(월) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">승주 임 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/24<span class="time">(월) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">민정 조 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/24<span class="time">(월) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</div>
-    <div class="flow">승준 이 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/26<span class="time">(수) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">서현 김 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/27<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">은미 이 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/27<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</div>
-    <div class="flow">李致姗 李 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/27<span class="time">(목) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#e87ba4"></span>취향집</div>
-    <div class="flow">Yan Ren 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/28<span class="time">(금) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">Dukhwa Kang 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/29<span class="time">(토) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#e87ba4"></span>취향집</div>
-    <div class="flow">馨 夏 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item urgent">
-  <div class="when">8/30<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">지혜 강 퇴실 → 같은 유닛 당일 재입실 있음, 빠른 청소 필요</div>
-  </div>
-  <span class="badge urgent">당일 재입실</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/30<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#e87ba4"></span>취향집</div>
-    <div class="flow">유나 조 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/31<span class="time">(월) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</div>
-    <div class="flow">진우 이 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">8/31<span class="time">(월) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">병구 김 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">9/1<span class="time">(화) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</div>
-    <div class="flow">신욱 곽 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-<div class="clean-item">
-  <div class="when">9/6<span class="time">(일) 체크아웃</span></div>
-  <div class="body">
-    <div class="unit"><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</div>
-    <div class="flow">Jiny Choi 퇴실 → 익일까지 여유</div>
-  </div>
-  <span class="badge normal">여유 있음</span>
-</div>
-  </div>
-</section>
-
-<section>
-  <h2>주차 특이사항 캘린더 <span class="range">8/16 - 9/12</span></h2>
+  <h2>주차여부 · 바베큐여부 캘린더 <span class="range">8/16 - 9/12</span></h2>
   <div class="policy-box">
-    <b>기본 규칙</b>: 건대입구 유닛(401/402/501/502)은 건물 내 주차 1대만 가능합니다. 세단 초과 차량은 <b>케이타워B오피스텔</b>(세단만, 1만원)로, SUV·승합차는 <b>송정공영주차장</b>(호스트가 최대 1만원 지원)으로 안내합니다. 마포 취향집은 별도 주차 공간이 없습니다. 게스트별 실제 차량 종류/대수는 메시지 확인이 필요한 항목은 "확인 필요"로 표시했습니다.
+    <b>기본 규칙</b>: 건물 내 주차는 1대만 가능합니다. 세단 초과 차량은 <b>케이타워B오피스텔</b>(세단만, 1만원)로, SUV·승합차는 <b>송정공영주차장</b>(호스트가 최대 1만원 지원)으로 안내합니다. 게스트별 실제 주차/바베큐 이용 여부는 메시지 확인 전까지 "확인 필요"로 표시됩니다.
   </div>
   <div class="cal">
     <div class="cal-wd-row">
@@ -529,437 +248,130 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
 <div class="cal-wd sat">토</div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/16<span class="wd sun">일</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/17<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/18<span class="wd">화</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/19<span class="wd">수</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day today ">
+<div class="cal-day today">
   <div class="num">8/20<span class="wd">목</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 병준 전 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eb6834;">502 Kevin 이 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #1baf7a;">401 Glenda Galvez · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eda100;">402 유나 이 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 병준 전<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Kevin 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 Glenda Galvez<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 유나 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/21<span class="wd">금</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 현수 양 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eb6834;">502 김 진영 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eda100;">402 경미 이 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 현수 양<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 김 진영<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 경미 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/22<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 병준 이 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eb6834;">502 혜란 강 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #1baf7a;">401 승준 이 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eda100;">402 지웅 이 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 병준 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 혜란 강<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 승준 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 지웅 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/23<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 승주 임 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eb6834;">502 민정 조 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eda100;">402 李致姗 李 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 승주 임<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 민정 조<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#1E88B81a;color:#1E88B8;border-left:3px solid #1E88B8;">402 李致姗 李<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/24<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/25<span class="wd">화</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 서현 김 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 서현 김<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/26<span class="wd">수</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 은미 이 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 은미 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/27<span class="wd">목</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #eb6834;">502 Dukhwa Kang · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Dukhwa Kang<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/28<span class="wd">금</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/29<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #eb6834;">502 지혜 강 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 지혜 강<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/30<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #2a78d6;">501 진우 이 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #eb6834;">502 병구 김 · 주차 확인 필요</div><div class="pk unknown" style="border-left:3px solid #1baf7a;">401 신욱 곽 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#8A5A3B1a;color:#8A5A3B;border-left:3px solid #8A5A3B;">501 진우 이<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 병구 김<br>주차: 확인 필요 · 바베큐: 확인 필요</div><div class="evt" style="background:#C985001a;color:#C98500;border-left:3px solid #C98500;">401 신욱 곽<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">8/31<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/1<span class="wd">화</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/2<span class="wd">수</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/3<span class="wd">목</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/4<span class="wd">금</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/5<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #eb6834;">502 Jiny Choi · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 Jiny Choi<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
 </div>
 <div class="cal-grid">
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/6<span class="wd sun">일</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/7<span class="wd">월</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/8<span class="wd">화</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/9<span class="wd">수</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/10<span class="wd">목</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/11<span class="wd">금</span></div>
   <div class="empty-hint">-</div>
 </div>
-<div class="cal-day ">
+<div class="cal-day">
   <div class="num">9/12<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="pk unknown" style="border-left:3px solid #eb6834;">502 인애 나 · 주차 확인 필요</div></div>
+  <div class="evt-list"><div class="evt" style="background:#2626261a;color:#262626;border-left:3px solid #262626;">502 인애 나<br>주차: 확인 필요 · 바베큐: 확인 필요</div></div>
 </div>
 </div>
   </div>
-</section>
-
-<section>
-  <h2>게스트 특이사항 캘린더 <span class="range">8/16 - 9/12</span></h2>
-  <div class="hint">어린이 동반, 대인원(8명 이상), 얼리체크인/레이트체크아웃 문의, 예약 변경 처리 중 등 확인이 필요한 사항을 표시합니다. 마포 취향집은 얼리체크인(오후 2~4시, 1~2만원)/레이트체크아웃(오전 11시~오후 1시, 1~2만원)이 상시 유료 옵션으로 운영됩니다.</div>
-  <div class="cal">
-    <div class="cal-wd-row">
-<div class="cal-wd sun">일</div>
-<div class="cal-wd">월</div>
-<div class="cal-wd">화</div>
-<div class="cal-wd">수</div>
-<div class="cal-wd">목</div>
-<div class="cal-wd">금</div>
-<div class="cal-wd sat">토</div>
-</div>
-<div class="cal-grid">
-<div class="cal-day ">
-  <div class="num">8/16<span class="wd sun">일</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/17<span class="wd">월</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/18<span class="wd">화</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/19<span class="wd">수</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">402 지원 이 · 어린이 동반</div></div>
-</div>
-<div class="cal-day today ">
-  <div class="num">8/20<span class="wd">목</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#1baf7a1a;color:#1baf7a;border-left:3px solid #1baf7a;">401 Glenda Galvez · 예약 변경요청 처리중 - 확인 필요</div></div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/21<span class="wd">금</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 김 진영 · 대인원 9명</div></div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/22<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 혜란 강 · 어린이 동반</div><div class="evt note-tag" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">402 지웅 이 · 대인원 8명</div><div class="evt note-tag" style="background:#e87ba41a;color:#e87ba4;border-left:3px solid #e87ba4;">마포 Yan Ren · 어린이 동반</div></div>
-</div>
-</div>
-<div class="cal-grid">
-<div class="cal-day ">
-  <div class="num">8/23<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eda1001a;color:#eda100;border-left:3px solid #eda100;">402 李致姗 李 · 얼리체크인 문의 있었음 - 확인 필요</div></div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/24<span class="wd">월</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/25<span class="wd">화</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/26<span class="wd">수</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/27<span class="wd">목</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/28<span class="wd">금</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/29<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 지혜 강 · 대인원 8명</div></div>
-</div>
-</div>
-<div class="cal-grid">
-<div class="cal-day ">
-  <div class="num">8/30<span class="wd sun">일</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#2a78d61a;color:#2a78d6;border-left:3px solid #2a78d6;">501 진우 이 · 어린이 동반</div><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 병구 김 · 어린이 동반, 대인원 10명</div></div>
-</div>
-<div class="cal-day ">
-  <div class="num">8/31<span class="wd">월</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/1<span class="wd">화</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/2<span class="wd">수</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/3<span class="wd">목</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/4<span class="wd">금</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/5<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 Jiny Choi · 대인원 8명</div></div>
-</div>
-</div>
-<div class="cal-grid">
-<div class="cal-day ">
-  <div class="num">9/6<span class="wd sun">일</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/7<span class="wd">월</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/8<span class="wd">화</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/9<span class="wd">수</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/10<span class="wd">목</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/11<span class="wd">금</span></div>
-  <div class="empty-hint">-</div>
-</div>
-<div class="cal-day ">
-  <div class="num">9/12<span class="wd sat">토</span></div>
-  <div class="evt-list"><div class="evt note-tag" style="background:#eb68341a;color:#eb6834;border-left:3px solid #eb6834;">502 인애 나 · 대인원 10명</div></div>
-</div>
-</div>
-  </div>
-</section>
-
-<section>
-  <h2>주차 배정 상세</h2>
-  <div class="hint">이번 4주간 건대입구 체크인 건 목록입니다. 실제 배정은 메시지함 확인 후 업데이트가 필요합니다.</div>
-  <table class="park-table">
-    <thead><tr><th>체크인</th><th>유닛</th><th>게스트</th><th>인원</th><th>주차 배정</th></tr></thead>
-    <tbody>
-      <tr>
-  <td>8/20</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>병준 전</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/20</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>Kevin 이</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/20</td>
-  <td><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</td>
-  <td>Glenda Galvez</td>
-  <td>성인 5명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/20</td>
-  <td><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</td>
-  <td>유나 이</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/21</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>현수 양</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/21</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>김 진영</td>
-  <td>성인 9명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/21</td>
-  <td><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</td>
-  <td>경미 이</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/22</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>병준 이</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/22</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>혜란 강</td>
-  <td>성인 4명, 어린이 2명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/22</td>
-  <td><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</td>
-  <td>승준 이</td>
-  <td>성인 1명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/22</td>
-  <td><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</td>
-  <td>지웅 이</td>
-  <td>성인 8명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/23</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>승주 임</td>
-  <td>성인 5명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/23</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>민정 조</td>
-  <td>성인 7명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/23</td>
-  <td><span class="dot" style="background:#eda100"></span>우드블랑 하우스 402호</td>
-  <td>李致姗 李</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/25</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>서현 김</td>
-  <td>성인 6명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/26</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>은미 이</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/27</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>Dukhwa Kang</td>
-  <td>성인 7명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/29</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>지혜 강</td>
-  <td>성인 8명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/30</td>
-  <td><span class="dot" style="background:#2a78d6"></span>더테라스 하우스 501호</td>
-  <td>진우 이</td>
-  <td>성인 4명, 어린이 2명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/30</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>병구 김</td>
-  <td>성인 6명, 어린이 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>8/30</td>
-  <td><span class="dot" style="background:#1baf7a"></span>우드블랑 하우스 401호</td>
-  <td>신욱 곽</td>
-  <td>성인 4명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>9/5</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>Jiny Choi</td>
-  <td>성인 8명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-<tr>
-  <td>9/12</td>
-  <td><span class="dot" style="background:#eb6834"></span>더블랑 하우스 502호</td>
-  <td>인애 나</td>
-  <td>성인 10명</td>
-  <td class="muted">확인 필요 (세단 초과 시 케이타워B오피스텔 1만원 / SUV·승합차는 송정공영주차장, 호스트 최대 1만원 지원)</td>
-</tr>
-    </tbody>
-  </table>
 </section>
 
 <footer>
-  건대입구 게스트하우스 4개 유닛 · 마포 아현동 취향집 · 내부 운영용 대시보드
+  건대입구 게스트하우스 4개 유닛 · 내부 운영용 대시보드
 </footer>
 </div>
 </body>

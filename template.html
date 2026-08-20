@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>건대입구 게스트하우스 · 취향집 운영 대시보드</title>
+<title>건대입구 게스트하우스 운영 대시보드</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <style>
 @font-face {
@@ -19,10 +19,7 @@
   --text: #0b0b0b;
   --muted: #52514e;
   --muted-2: #8a887f;
-  --accent: #eda100;
-  --warn: #d03b3b;
-  --warn-bg: #fbe9e7;
-  --ok: #0ca30c;
+  --accent: #C98500;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -49,43 +46,23 @@ section h2::after{content:''; flex:1; height:1px; background:var(--line); min-wi
 .cal{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px;}
 .cal-wd-row{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
 .cal-wd{text-align:center; font-size:11px; color:var(--muted-2); padding:4px 0; font-weight:700; letter-spacing:0.02em;}
-.cal-wd.sat{color:#2a78d6;} .cal-wd.sun{color:#d03b3b;}
+.cal-wd.sat{color:#1E88B8;} .cal-wd.sun{color:#d03b3b;}
 .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
-.cal-day{min-height:78px; border-radius:8px; background:var(--card-hi); border:1px solid var(--line); padding:6px; display:flex; flex-direction:column; gap:3px; overflow:hidden;}
+.cal-day{min-height:82px; border-radius:8px; background:var(--card-hi); border:1px solid var(--line); padding:6px; display:flex; flex-direction:column; gap:3px; overflow:hidden;}
 .cal-day.today{border-color:var(--accent); border-width:2px; background:#fff8ec;}
 .cal-day .num{font-weight:700; font-size:11px; color:var(--muted); margin-bottom:1px;}
 .cal-day .num .wd{font-weight:500; color:var(--muted-2); font-size:10px; margin-left:4px;}
-.cal-day .num .wd.sat{color:#2a78d6;} .cal-day .num .wd.sun{color:#d03b3b;}
-.evt-list{display:flex; flex-direction:column; gap:2px;}
-.evt{font-size:9.5px; border-radius:4px; padding:2px 5px; line-height:1.4; display:block; word-break:keep-all; overflow-wrap:break-word;}
-.pk{font-size:9.5px; border-radius:4px; padding:2px 5px; line-height:1.4; display:block; word-break:keep-all;}
-.pk.unknown{background:var(--card); color:var(--muted); border:1px dashed var(--muted-2);}
+.cal-day .num .wd.sat{color:#1E88B8;} .cal-day .num .wd.sun{color:#d03b3b;}
+.evt-list{display:flex; flex-direction:column; gap:3px;}
+.evt{font-size:9.5px; border-radius:4px; padding:3px 5px; line-height:1.45; display:block; word-break:keep-all; overflow-wrap:break-word;}
+.evt .tag{font-weight:700; opacity:0.9;}
 .empty-hint{color:var(--muted-2); font-size:10px; padding-top:2px;}
 
 @media (min-width:640px){
-  .cal-day{min-height:110px; padding:8px;}
+  .cal-day{min-height:118px; padding:8px;}
   .cal-day .num{font-size:12.5px;}
-  .evt, .pk{font-size:11px; padding:3px 6px;}
+  .evt{font-size:11px; padding:4px 6px;}
 }
-
-.clean-list{display:flex; flex-direction:column; gap:8px;}
-.clean-item{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 16px; display:grid; grid-template-columns:88px 1fr auto; gap:14px; align-items:center;}
-.clean-item.urgent{border-color:rgba(208,59,59,0.4); background:linear-gradient(90deg, var(--warn-bg), var(--card) 24%);}
-.clean-item .when{font-weight:700; font-size:13.5px;}
-.clean-item .when .time{display:block; color:var(--muted-2); font-size:11px; font-weight:500; margin-top:2px;}
-.clean-item .body .unit{font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:7px;}
-.clean-item .body .unit .dot{width:9px;height:9px;border-radius:2px; display:inline-block;}
-.clean-item .body .flow{color:var(--muted); font-size:12.5px; margin-top:3px;}
-.badge{font-size:10px; font-weight:700; letter-spacing:0.03em; padding:4px 10px; border-radius:20px; text-transform:uppercase; white-space:nowrap;}
-.badge.urgent{background:var(--warn); color:#fff;}
-.badge.normal{background:var(--card-hi); color:var(--muted); border:1px solid var(--line);}
-
-table.park-table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13px;}
-table.park-table th, table.park-table td{padding:11px 12px; text-align:left; border-bottom:1px solid var(--line);}
-table.park-table th{background:var(--card-hi); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); font-weight:700;}
-table.park-table td.muted{color:var(--muted-2); font-size:12px;}
-table.park-table .dot{width:9px;height:9px;border-radius:2px; display:inline-block; margin-right:6px; vertical-align:middle;}
-table.park-table tr:last-child td{border-bottom:none;}
 
 .policy-box{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; font-size:13px; color:var(--muted); margin-bottom:18px;}
 .policy-box b{color:var(--text);}
@@ -97,8 +74,6 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
   header{padding:26px 14px 20px;}
   header h1{font-size:20px;}
   section{padding:20px 0;}
-  .clean-item{grid-template-columns:1fr; gap:8px;}
-  table.park-table{font-size:12px;}
 }
 </style>
 </head>
@@ -106,9 +81,9 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
 <div class="wrap">
 <header>
   <div class="eyebrow">Guesthouse Ops Dashboard</div>
-  <h1>건대입구 게스트하우스 4개 유닛 · 마포 취향집 운영 대시보드</h1>
-  <p>예약 현황, 주차 배정, 청소 일정, 게스트 특이사항을 한눈에 확인하세요. 확인되지 않은 정보는 추측하지 않고 "확인 필요"로 표시합니다.</p>
-  <div class="updated">최근 업데이트: {{UPDATED_LABEL}} · 표시 기간: {{WIN_LABEL}} (4주 로테이션)</div>
+  <h1>건대입구 게스트하우스 4개 유닛 운영 대시보드</h1>
+  <p>예약 현황과 주차/바베큐 여부를 한눈에 확인하세요. 확인되지 않은 정보는 추측하지 않고 "확인 필요"로 표시합니다.</p>
+  <div class="updated">최근 업데이트: {{UPDATED_LABEL}} · 표시 기간: {{WIN_LABEL}} (4주 로테이션, 매주 일요일 갱신)</div>
 </header>
 
 <section>
@@ -120,51 +95,24 @@ footer{padding:30px 24px; color:var(--muted-2); font-size:12px; text-align:cente
 
 <section>
   <h2>예약 캘린더 <span class="range">{{WIN_LABEL}}</span></h2>
-  <div class="hint">IN = 체크인, OUT = 체크아웃. 색상은 유닛을 나타냅니다.</div>
+  <div class="hint">체크인 게스트와 인원. 얼리체크인/레이트체크아웃이 메시지로 확인된 경우에만 함께 표시됩니다.</div>
   <div class="cal">
     {{CAL1}}
   </div>
 </section>
 
 <section>
-  <h2>청소 일정</h2>
-  <div class="hint">체크아웃일 기준, 같은 유닛에 당일 재입실이 있으면 "당일 재입실"로 강조 표시됩니다.</div>
-  <div class="clean-list">
-    {{CLEAN_LIST}}
-  </div>
-</section>
-
-<section>
-  <h2>주차 특이사항 캘린더 <span class="range">{{WIN_LABEL}}</span></h2>
+  <h2>주차여부 · 바베큐여부 캘린더 <span class="range">{{WIN_LABEL}}</span></h2>
   <div class="policy-box">
-    <b>기본 규칙</b>: 건대입구 유닛(401/402/501/502)은 건물 내 주차 1대만 가능합니다. 세단 초과 차량은 <b>케이타워B오피스텔</b>(세단만, 1만원)로, SUV·승합차는 <b>송정공영주차장</b>(호스트가 최대 1만원 지원)으로 안내합니다. 마포 취향집은 별도 주차 공간이 없습니다. 게스트별 실제 차량 종류/대수는 메시지 확인이 필요한 항목은 "확인 필요"로 표시했습니다.
+    <b>기본 규칙</b>: 건물 내 주차는 1대만 가능합니다. 세단 초과 차량은 <b>케이타워B오피스텔</b>(세단만, 1만원)로, SUV·승합차는 <b>송정공영주차장</b>(호스트가 최대 1만원 지원)으로 안내합니다. 게스트별 실제 주차/바베큐 이용 여부는 메시지 확인 전까지 "확인 필요"로 표시됩니다.
   </div>
   <div class="cal">
     {{CAL2}}
   </div>
 </section>
 
-<section>
-  <h2>게스트 특이사항 캘린더 <span class="range">{{WIN_LABEL}}</span></h2>
-  <div class="hint">어린이 동반, 대인원(8명 이상), 얼리체크인/레이트체크아웃 문의, 예약 변경 처리 중 등 확인이 필요한 사항을 표시합니다. 마포 취향집은 얼리체크인(오후 2~4시, 1~2만원)/레이트체크아웃(오전 11시~오후 1시, 1~2만원)이 상시 유료 옵션으로 운영됩니다.</div>
-  <div class="cal">
-    {{CAL3}}
-  </div>
-</section>
-
-<section>
-  <h2>주차 배정 상세</h2>
-  <div class="hint">이번 4주간 건대입구 체크인 건 목록입니다. 실제 배정은 메시지함 확인 후 업데이트가 필요합니다.</div>
-  <table class="park-table">
-    <thead><tr><th>체크인</th><th>유닛</th><th>게스트</th><th>인원</th><th>주차 배정</th></tr></thead>
-    <tbody>
-      {{PARK_TABLE}}
-    </tbody>
-  </table>
-</section>
-
 <footer>
-  건대입구 게스트하우스 4개 유닛 · 마포 아현동 취향집 · 내부 운영용 대시보드
+  건대입구 게스트하우스 4개 유닛 · 내부 운영용 대시보드
 </footer>
 </div>
 </body>
