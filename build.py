@@ -40,34 +40,38 @@ def d(y, m, day):
 # early: 확인된 얼리체크인 메모 (없으면 None) / late: 확인된 레이트체크아웃 메모 (없으면 None)
 # note: 기타 확인 필요 메모
 RESERVATIONS = [
-    # 501호 더테라스 하우스
+    # 501호 더테라스 하우스 (브라운문)
     dict(unit="501", guest="세아 마", ci=d(2026,8,19), co=d(2026,8,20), adults=4, children=0, status="checkout_done"),
-    dict(unit="501", guest="병준 전", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting"),
+    dict(unit="501", guest="병준 전", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting",
+         parking="세단(흰색 아반떼HD, 11다6062) - 케이타워B오피스텔 1만원 유상주차"),
     dict(unit="501", guest="현수 양", ci=d(2026,8,21), co=d(2026,8,22), adults=4, children=0, status="confirmed"),
     dict(unit="501", guest="병준 이", ci=d(2026,8,22), co=d(2026,8,23), adults=4, children=0, status="confirmed"),
     dict(unit="501", guest="승주 임", ci=d(2026,8,23), co=d(2026,8,24), adults=5, children=0, status="confirmed"),
     dict(unit="501", guest="서현 김", ci=d(2026,8,25), co=d(2026,8,26), adults=6, children=0, status="confirmed"),
     dict(unit="501", guest="은미 이", ci=d(2026,8,26), co=d(2026,8,27), adults=4, children=0, status="confirmed"),
     dict(unit="501", guest="진우 이", ci=d(2026,8,30), co=d(2026,8,31), adults=4, children=2, status="confirmed"),
-    # 502호 더블랑 하우스
-    dict(unit="502", guest="원재 장", ci=d(2026,8,19), co=d(2026,8,20), adults=5, children=0, status="checkout_done"),
-    dict(unit="502", guest="Kevin 이", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting"),
-    dict(unit="502", guest="김 진영", ci=d(2026,8,21), co=d(2026,8,22), adults=9, children=0, status="confirmed"),
-    dict(unit="502", guest="혜란 강", ci=d(2026,8,22), co=d(2026,8,23), adults=4, children=2, status="confirmed"),
-    dict(unit="502", guest="민정 조", ci=d(2026,8,23), co=d(2026,8,24), adults=7, children=0, status="confirmed"),
-    dict(unit="502", guest="Dukhwa Kang", ci=d(2026,8,27), co=d(2026,8,28), adults=7, children=0, status="confirmed"),
-    dict(unit="502", guest="지혜 강", ci=d(2026,8,29), co=d(2026,8,30), adults=8, children=0, status="confirmed"),
-    dict(unit="502", guest="병구 김", ci=d(2026,8,30), co=d(2026,8,31), adults=6, children=4, status="confirmed"),
-    dict(unit="502", guest="Jiny Choi", ci=d(2026,9,5), co=d(2026,9,6), adults=8, children=0, status="confirmed"),
-    dict(unit="502", guest="인애 나", ci=d(2026,9,12), co=d(2026,9,13), adults=10, children=0, status="confirmed"),
-    # 401호 우드블랑 골드문
-    dict(unit="401", guest="현수 김", ci=d(2026,8,19), co=d(2026,8,20), adults=3, children=0, status="checkout_done"),
-    dict(unit="401", guest="Glenda Galvez", ci=d(2026,8,20), co=d(2026,8,22), adults=5, children=0, status="change_request", note="예약 변경요청 처리중 - 확인 필요"),
-    dict(unit="401", guest="승준 이", ci=d(2026,8,22), co=d(2026,8,24), adults=1, children=0, status="confirmed"),
-    dict(unit="401", guest="신욱 곽", ci=d(2026,8,30), co=d(2026,9,1), adults=4, children=0, status="confirmed"),
+    # 502호 더블랑 하우스 (검정문) — 이용안내 메시지로 재확인된 정확한 매핑
+    dict(unit="502", guest="현수 김", ci=d(2026,8,19), co=d(2026,8,20), adults=3, children=0, status="checkout_done"),
+    dict(unit="502", guest="Glenda Galvez", ci=d(2026,8,20), co=d(2026,8,22), adults=5, children=0, status="hosting",
+         early="오후 3시 (확정, 카드결제)"),
+    dict(unit="502", guest="승준 이", ci=d(2026,8,22), co=d(2026,8,24), adults=1, children=0, status="confirmed"),
+    dict(unit="502", guest="신욱 곽", ci=d(2026,8,30), co=d(2026,9,1), adults=4, children=0, status="confirmed"),
+    # 401호 우드블랑 골드문 — 이용안내 메시지로 재확인된 정확한 매핑
+    dict(unit="401", guest="원재 장", ci=d(2026,8,19), co=d(2026,8,20), adults=5, children=0, status="checkout_done"),
+    dict(unit="401", guest="Kevin 이", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting",
+         parking="차량 없음", late="오후 1시 (확정, 입금완료)"),
+    dict(unit="401", guest="김 진영", ci=d(2026,8,21), co=d(2026,8,22), adults=9, children=0, status="confirmed"),
+    dict(unit="401", guest="혜란 강", ci=d(2026,8,22), co=d(2026,8,23), adults=4, children=2, status="confirmed"),
+    dict(unit="401", guest="민정 조", ci=d(2026,8,23), co=d(2026,8,24), adults=7, children=0, status="confirmed"),
+    dict(unit="401", guest="Dukhwa Kang", ci=d(2026,8,27), co=d(2026,8,28), adults=7, children=0, status="confirmed"),
+    dict(unit="401", guest="지혜 강", ci=d(2026,8,29), co=d(2026,8,30), adults=8, children=0, status="confirmed"),
+    dict(unit="401", guest="병구 김", ci=d(2026,8,30), co=d(2026,8,31), adults=6, children=4, status="confirmed"),
+    dict(unit="401", guest="Jiny Choi", ci=d(2026,9,5), co=d(2026,9,6), adults=8, children=0, status="confirmed"),
+    dict(unit="401", guest="인애 나", ci=d(2026,9,12), co=d(2026,9,13), adults=10, children=0, status="confirmed"),
     # 402호 우드블랑 그레이문
     dict(unit="402", guest="지원 이", ci=d(2026,8,19), co=d(2026,8,20), adults=3, children=1, status="checkout_done"),
-    dict(unit="402", guest="유나 이", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting"),
+    dict(unit="402", guest="유나 이", ci=d(2026,8,20), co=d(2026,8,21), adults=4, children=0, status="hosting",
+         parking="SUV (QM6, 227부9938) - 송정공영주차장 안내 필요", bbq="이용 확정 (3만원 입금완료)"),
     dict(unit="402", guest="경미 이", ci=d(2026,8,21), co=d(2026,8,22), adults=4, children=0, status="confirmed"),
     dict(unit="402", guest="지웅 이", ci=d(2026,8,22), co=d(2026,8,23), adults=8, children=0, status="confirmed"),
     dict(unit="402", guest="李致姗 李", ci=d(2026,8,23), co=d(2026,8,27), adults=4, children=0, status="confirmed", note="얼리체크인 문의 있었음 - 확인 필요"),
